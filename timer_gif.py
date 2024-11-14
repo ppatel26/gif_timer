@@ -15,8 +15,8 @@ from wand.color import Color
 
 # Timer settings
 filename = "timer_python.gif"
-bg_color = "white"
-seconds = 1 * 60
+bg_color = "black"
+seconds = 2 * 60
 
 # Generate time labels
 def nice_time(seconds):
@@ -29,17 +29,19 @@ def nice_time(seconds):
 # lambda x: str(timedelta(seconds=x)) works great, but it doesn't let you
 # format the string however you want
 
-labels = list(map(nice_time, reversed(range(seconds + 1))))
+labels = list(map(nice_time, reversed(range(seconds + 1))))[::-1]
 
 with Image() as gif:
     for label in labels:
         with Drawing() as draw:
-            draw.font = "SourceSansPro-Light.otf"
+            draw.font = "arial-bold.otf"
             draw.font_size = 140
             draw.text_alignment = "center"
             draw.text_antialias = True
+            draw.fill_color = Color('white') 
+            draw.stroke_color = Color('white') 
 
-            with Image(width=600, height=400, background=Color(bg_color)) as img:
+            with Image(width=400, height=400, background=Color(bg_color)) as img:
                 x = int(img.width / 2)
                 y = int(img.height / 2)
                 draw.text(x, y, label)
@@ -48,6 +50,6 @@ with Image() as gif:
 
     for frame in gif.sequence:
         with frame:
-            frame.delay = 100  # Centiseconds
+            frame.delay = 70  # Centiseconds
 
     gif.save(filename=filename)
